@@ -1,5 +1,6 @@
 package com.myschool.data.entity;
 
+import com.myschool.data.enums.ClassOfStudy;
 import jakarta.persistence.*;
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.myschool.data.entity;
+package com.myschool.data.enums;
 
 public enum ClassOfStudy {
     ONE,
