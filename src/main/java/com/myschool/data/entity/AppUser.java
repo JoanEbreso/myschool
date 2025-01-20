@@ -1,11 +1,6 @@
 package com.myschool.data.entity;
 
-import jakarta.persistence.*;
-import lombok.Data;
-
-import java.util.Set;
-
-public class Staff {
+public class AppUser {
 
     private String firstName;
 

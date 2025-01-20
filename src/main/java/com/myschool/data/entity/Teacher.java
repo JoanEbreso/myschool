@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Data
-public class Teacher extends Staff{
+public class Teacher extends AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Admin extends Staff{
+public class Admin extends AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
