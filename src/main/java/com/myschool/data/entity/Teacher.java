@@ -9,10 +9,6 @@ import java.util.Set;
 @Data
 public class Teacher extends AppUser {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @OneToMany
     private Set<Course> courses;
 }

@@ -1,8 +1,8 @@
 package com.myschool.data.entity;
 
 import com.myschool.data.enums.UserRole;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,13 +15,19 @@ import java.util.Collections;
 
 @Getter
 @Setter
+@Entity
 @EqualsAndHashCode
 public class AppUser implements UserDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String firstName;
 
     private String lastName;
 
+    @Nullable
     private String email;
 
     private String address;

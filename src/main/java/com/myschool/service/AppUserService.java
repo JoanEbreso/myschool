@@ -6,5 +6,5 @@ import com.myschool.data.entity.AppUser;
 
 public interface AppUserService {
 
-    AppUser registerStaff(UserDao userDao);
+    String registerStaff(UserDao userDao);
 }

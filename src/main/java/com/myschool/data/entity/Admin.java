@@ -10,7 +10,4 @@ import lombok.Data;
 @Data
 public class Admin extends AppUser {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 }

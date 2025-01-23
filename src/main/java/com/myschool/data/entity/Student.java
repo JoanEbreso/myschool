@@ -8,10 +8,6 @@ import lombok.Data;
 @Data
 public class Student extends AppUser {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Enumerated(EnumType.STRING)
     private ClassOfStudy classOfStudy;
 
