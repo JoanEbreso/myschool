@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/vi/user_registration")
+@RequestMapping(path = "api/v1/user_registration")
 public class AppUserController {
 
     @Autowired
