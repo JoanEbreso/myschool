@@ -1,6 +1,6 @@
 package com.myschool.data.dao;
 
-import javax.management.relation.Role;
+import com.myschool.data.enums.UserRole;
 
 public class UserDao{
 
@@ -10,5 +10,5 @@ public class UserDao{
 
     private String address;
 
-    private Role role;
+    private UserRole role;
 }
