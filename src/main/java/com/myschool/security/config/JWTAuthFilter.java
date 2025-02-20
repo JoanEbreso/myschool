@@ -21,7 +21,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class JWTAuthFilter extends OncePerRequestFilter {
 
-    private final AppUserServiceImpl appUserServiceImpl;
+    private final AppUserServiceImpl appUserService;
 
     private final JWTUtil jwtUtil;
 
@@ -40,7 +40,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         username = jwtUtil.extractUsername(jwtToken);
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = appUserServiceImpl.loadUserByUsername(username);
+            UserDetails userDetails = appUserService.loadUserByUsername(username);
 
             if(jwtUtil.validateToken(jwtToken, userDetails)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(

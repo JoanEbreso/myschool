@@ -8,20 +8,17 @@ import com.myschool.data.repository.StudentRepository;
 import com.myschool.data.repository.TeacherRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AppUserServiceImpl implements AppUserService, UserDetailsService {
+@Primary
+public class AppUserServiceImpl implements UserDetailsService {
     @Autowired
     AppUserRepository appUserRepository;
-
-    @Override
-    public String registerStaff(UserDao userDao) {
-        return "works";
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
