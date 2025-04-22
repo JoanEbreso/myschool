@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .formLogin(fl -> fl.disable())
                 .csrf(a -> a.disable())
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("login")
+                        auth.requestMatchers("/login")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())
