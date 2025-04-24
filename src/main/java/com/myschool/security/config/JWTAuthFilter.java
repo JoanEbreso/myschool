@@ -32,6 +32,13 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         final String username;
         final String jwtToken;
 
+        String path = request.getServletPath();
+        if (path.equals("/api/v1/auth/login")) {
+            System.out.printf("login... me.. " + path);
+            filterChain.doFilter(request, response); // 🔥 Skip JWT check for /login
+            return;
+        }
+
         if(authHeader == null || !authHeader.startsWith("Bearer")){
             filterChain.doFilter(request, response);
             return;
@@ -49,6 +56,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
+        System.out.println("login... me..");
         filterChain.doFilter(request, response);
     }
 }

@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService {
     public String login(LoginRequest loginRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        System.out.println("UserServiceImpl login... me..");
         UserDetails user = userDetailsService.loadUserByUsername(loginRequest.getUsername());
 
         if(user != null){

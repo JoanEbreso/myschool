@@ -1,5 +1,7 @@
 package com.myschool.security.config;
 
+import com.myschool.security.exceptions.security.AccessDenied;
+import com.myschool.security.exceptions.security.RestAuthenticationFailureHandler;
 import com.myschool.service.AppUserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -10,11 +12,15 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -23,30 +29,44 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JWTAuthFilter jwtAuthFilter;
-    private final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-
+    private final AuthenticationEntryPoint customRestAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .formLogin(fl -> fl.disable())
-                .csrf(a -> a.disable())
+                .formLogin(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/login")
+                        auth.requestMatchers("/api/v1/auth/login")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
+                .exceptionHandling(
+                        exceptionHandling ->
+                                exceptionHandling
+                                        .authenticationEntryPoint(customRestAuthenticationEntryPoint)
+                                        .accessDeniedHandler(accessDeniedHandler())
+                )
+                .addFilter(new UsernamePasswordAuthenticationFilter())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new AccessDenied();
+    }
 
+    // For some reason, spring security returns 403 for all failed login attempts,
+    // so we need to override the default behavior with this class
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new RestAuthenticationFailureHandler();
+    }
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
 
