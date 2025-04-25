@@ -1,7 +1,9 @@
 package com.myschool.service;
 
 import com.myschool.data.dao.UserDao;
+import com.myschool.data.dao.UserDaoMapper;
 import com.myschool.data.dto.LoginRequest;
+import com.myschool.data.entity.AppUser;
 import com.myschool.security.config.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,9 +22,16 @@ public class UserServiceImpl implements UserService {
 
     private final JWTUtil jwtUtil;
 
+    private final UserDaoMapper userDaoMapper;
+
     @Override
-    public String registerStaff(UserDao userDao) {
-        return "works";
+    public AppUser registerStaff(UserDao userDao) {
+
+        AppUser appUser = new AppUser();
+
+        appUser = userDaoMapper.mapToUser(userDao);
+
+        return appUser ;
     }
 
     @Override
